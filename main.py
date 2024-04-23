@@ -19,6 +19,7 @@ def main():
         # Read and parse GeoJSON file
         geojson_data = json.load(uploaded_file)
 
+        # Add style
         def style_function(feature):
             color = feature['properties'].get('color', 'blue') 
             return {
@@ -32,7 +33,15 @@ def main():
         layer = folium.GeoJson(geojson_data, style_function=style_function).add_to(m)
         layer.add_to(m)
 
-        polygon_coords = geojson_data['geometry']['coordinates'][0]
+        # Zooming automatically
+        if geojson_data['type'] == 'Feature':
+                # Extract polygon or linestring coordinates
+                coords = extract_coords(geojson_data)
+        elif geojson_data['type'] == 'FeatureCollection':
+                # Extract coordinates from each feature
+                coords = []
+                for feature in geojson_data['features']:
+                    coords.extend(extract_coords(feature))
 
         # Calculate bounding box of polygon coordinates
         bbox = [[float('inf'), float('inf')], [float('-inf'), float('-inf')]]
@@ -51,6 +60,15 @@ def main():
 
         # Add layer control to the map
         folium.LayerControl().add_to(m)
+
+def extract_coords(feature):
+    geom_type = feature['geometry']['type']
+    if geom_type == 'Polygon':
+        return feature['geometry']['coordinates'][0]  # Assuming a single polygon
+    elif geom_type == 'LineString':
+        return feature['geometry']['coordinates']
+    else:
+        raise ValueError(f"Unsupported geometry type: {geom_type}")
 
 if __name__ == "__main__":
     main()
