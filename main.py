@@ -6,11 +6,14 @@ import json
 def main():
     st.title("GeoJSON Viewer")
 
-    # Create a placeholder for the Folium map
-    folium_map = folium.Map(location=[0, 0], zoom_start=2)
+    # Create or load the Folium map
+    folium_map = st.empty()
 
-    # Display the map as a Streamlit widget
-    folium_static(folium_map)
+    # Initialize the map with default location and zoom
+    m = folium.Map(location=[0, 0], zoom_start=2)
+
+    # Display the map
+    folium_static(m)
 
     # File uploader widget
     uploaded_file = st.file_uploader("Upload GeoJSON file", type=["geojson"])
@@ -20,10 +23,11 @@ def main():
         geojson_data = json.load(uploaded_file)
 
         # Add GeoJSON layer to map
-        folium.GeoJson(geojson_data).add_to(folium_map)
+        folium.GeoJson(geojson_data).add_to(m)
 
-        # Update the map widget
-        folium_static(folium_map)
+        # Clear the existing map and replace it with the updated one
+        folium_map.empty()
+        folium_static(m)
 
 if __name__ == "__main__":
     main()
