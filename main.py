@@ -38,7 +38,7 @@ def main():
 
         # Toggle layer visibility based on user selection
         for l in m._children.values():
-            if isinstance(l, folium.Layer) and l.get_name() not in active_layers:
+            if isinstance(l, folium.Layer) and hasattr(l, "get_name") and l.get_name() not in active_layers:
                 m.remove_layer(l)
 
 if __name__ == "__main__":
