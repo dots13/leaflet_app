@@ -29,8 +29,22 @@ def main():
         }
 
         # Add GeoJSON layer to map
-        folium.GeoJson(geojson_data, style_function=style_function).add_to(m)
+        layer = folium.GeoJson(geojson_data, style_function=style_function).add_to(m)
+        layer.add_to(m)
 
+        # Calculate bounding box of GeoJSON features
+        bbox = [[float('inf'), float('inf')], [float('-inf'), float('-inf')]]
+        for feature in geojson_data['features']:
+            coords = feature['geometry']['coordinates']
+            for coord in coords:
+                bbox[0][0] = min(bbox[0][0], coord[1])
+                bbox[0][1] = min(bbox[0][1], coord[0])
+                bbox[1][0] = max(bbox[1][0], coord[1])
+                bbox[1][1] = max(bbox[1][1], coord[0])
+
+        # Set map viewport to bounding box
+        m.fit_bounds(bbox)
+        
         # Clear the existing map and replace it with the updated one
         folium_map.empty()
         folium_static(m)
