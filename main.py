@@ -67,6 +67,8 @@ def extract_coords(feature):
         return feature['geometry']['coordinates'][0]  # Assuming a single polygon
     elif geom_type == 'LineString':
         return feature['geometry']['coordinates']
+    elif geom_type == 'MultiPoint':
+        return feature['geometry']['coordinates']
     elif geom_type == 'MultiLineString':
         coords = []
         for line_string in feature['geometry']['coordinates']:
