@@ -34,8 +34,6 @@ def main():
         layer.add_to(m)
 
 
-        # Set map viewport to bounding box
-        m.fit_bounds(bbox)
         
         # Clear the existing map and replace it with the updated one
         folium_map.empty()
