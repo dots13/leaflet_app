@@ -22,6 +22,7 @@ def main():
         # Add style
         def style_function(feature):
             color = feature['properties'].get('color', 'blue') 
+            color = feature['properties'].get('weight', '2.5') 
             return {
                 'fillColor': color,
                 'color': color,
