@@ -32,7 +32,7 @@ def main():
         layer = folium.GeoJson(geojson_data, style_function=style_function).add_to(m)
         layer.add_to(m)
 
-        polygon_coords = geojson_data['coordinates'][0]  # Assuming a single polygon
+        polygon_coords = geojson_data['geometry']['coordinates'][0]
 
         # Calculate bounding box of polygon coordinates
         bbox = [[float('inf'), float('inf')], [float('-inf'), float('-inf')]]
