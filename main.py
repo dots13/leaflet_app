@@ -32,15 +32,15 @@ def main():
         layer = folium.GeoJson(geojson_data, style_function=style_function).add_to(m)
         layer.add_to(m)
 
-        # Calculate bounding box of GeoJSON features
+        polygon_coords = geojson_data['coordinates'][0]  # Assuming a single polygon
+
+        # Calculate bounding box of polygon coordinates
         bbox = [[float('inf'), float('inf')], [float('-inf'), float('-inf')]]
-        for feature in geojson_data['features']:
-            coords = feature['geometry']['coordinates']
-            for coord in coords:
-                bbox[0][0] = min(bbox[0][0], coord[1])
-                bbox[0][1] = min(bbox[0][1], coord[0])
-                bbox[1][0] = max(bbox[1][0], coord[1])
-                bbox[1][1] = max(bbox[1][1], coord[0])
+        for coord in polygon_coords:
+            bbox[0][0] = min(bbox[0][0], coord[1])
+            bbox[0][1] = min(bbox[0][1], coord[0])
+            bbox[1][0] = max(bbox[1][0], coord[1])
+            bbox[1][1] = max(bbox[1][1], coord[0])
 
         # Set map viewport to bounding box
         m.fit_bounds(bbox)
