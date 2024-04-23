@@ -45,7 +45,7 @@ def main():
 
         # Calculate bounding box of polygon coordinates
         bbox = [[float('inf'), float('inf')], [float('-inf'), float('-inf')]]
-        for coord in polygon_coords:
+        for coord in coords:
             bbox[0][0] = min(bbox[0][0], coord[1])
             bbox[0][1] = min(bbox[0][1], coord[0])
             bbox[1][0] = max(bbox[1][0], coord[1])
