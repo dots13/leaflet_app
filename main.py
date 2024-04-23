@@ -29,5 +29,8 @@ def main():
         folium_map.empty()
         folium_static(m)
 
+        # Add layer control to the map
+        folium.LayerControl().add_to(m)
+
 if __name__ == "__main__":
     main()
