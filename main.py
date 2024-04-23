@@ -33,7 +33,26 @@ def main():
         layer = folium.GeoJson(geojson_data, style_function=style_function).add_to(m)
         layer.add_to(m)
 
+        # Zooming automatically
+        if geojson_data['type'] == 'Feature':
+                # Extract polygon or linestring coordinates
+                coords = extract_coords(geojson_data)
+        elif geojson_data['type'] == 'FeatureCollection':
+                # Extract coordinates from each feature
+                coords = []
+                for feature in geojson_data['features']:
+                    coords.extend(extract_coords(feature))
 
+        # Calculate bounding box of polygon coordinates
+        bbox = [[float('inf'), float('inf')], [float('-inf'), float('-inf')]]
+        for coord in coords:
+            bbox[0][0] = min(bbox[0][0], coord[1])
+            bbox[0][1] = min(bbox[0][1], coord[0])
+            bbox[1][0] = max(bbox[1][0], coord[1])
+            bbox[1][1] = max(bbox[1][1], coord[0])
+
+        # Set map viewport to bounding box
+        m.fit_bounds(bbox)
         
         # Clear the existing map and replace it with the updated one
         folium_map.empty()
