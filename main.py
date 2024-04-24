@@ -26,8 +26,7 @@ def main():
                 'fillColor': color,
                 'color': color,
                 'weight': 2.5,
-                'fillOpacity': 0.5,
-                'marker-symbol': marker-symbol              
+                'fillOpacity': 0.5,       
         }
 
         # Add GeoJSON layer to map
