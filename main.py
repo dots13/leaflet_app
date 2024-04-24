@@ -22,11 +22,13 @@ def main():
         # Add style
         def style_function(feature):
             color = feature['properties'].get('color', 'blue') 
+            marker-symbol = feature['properties'].get('marker-symbol', 'circle') 
             return {
                 'fillColor': color,
                 'color': color,
                 'weight': 2.5,
-                'fillOpacity': 0.5
+                'fillOpacity': 0.5,
+                'marker-symbol': marker-symbol              
         }
 
         # Add GeoJSON layer to map
