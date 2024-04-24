@@ -22,7 +22,6 @@ def main():
         # Add style
         def style_function(feature):
             color = feature['properties'].get('color', 'blue') 
-            marker-symbol = feature['properties'].get('marker-symbol', 'circle') 
             return {
                 'fillColor': color,
                 'color': color,
